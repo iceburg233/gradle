@@ -36,6 +36,7 @@ public interface BuildOperationParametersVersion1 extends LongRunningOperationPa
      *
      * @since 1.0-milestone-3
      */
+    @Deprecated
     Boolean isSearchUpwards();
 
     /**

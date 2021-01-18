@@ -186,7 +186,15 @@ class ToolingApi implements TestRule {
             connector.useInstallation(dist.gradleHomeDir.absoluteFile)
         }
         connector.embedded(embedded)
-        connector.searchUpwards(false)
+        if (GradleVersion.version(dist.getVersion().version) < GradleVersion.version("6.0")) {
+            connector.searchUpwards(false)
+        } else {
+            def settingsFile = testWorkDirProvider.testDirectory.file('settings.gradle')
+            def settingsFileKts = testWorkDirProvider.testDirectory.file('settings.gradle.kts')
+            if (!settingsFile.exists() && !settingsFileKts.exists()) {
+                settingsFile << ''
+            }
+        }
         if (useSeparateDaemonBaseDir) {
             connector.daemonBaseDir(new File(daemonBaseDir.path))
         }
